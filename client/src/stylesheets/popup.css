@@ -1,0 +1,54 @@
+.popup {
+    position: fixed;
+    top: -50px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: red;
+    color: white;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    animation: dropDown 0.5s forwards, disappear 0.5s 3s forwards;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+  }
+  
+  .popup-border {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background-color: white;
+    width: 100%;
+    animation: shrink 3s linear forwards;
+  }
+  
+  @keyframes dropDown {
+    from {
+      top: -50px;
+      opacity: 0;
+    }
+    to {
+      top: 20px;
+      opacity: 1;
+    }
+  }
+  
+  @keyframes disappear {
+    to {
+      top: -50px;
+      opacity: 0;
+    }
+  }
+  
+  @keyframes shrink {
+    from {
+      width: 100%;
+    }
+    to {
+      width: 0;
+    }
+  }
+  

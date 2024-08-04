@@ -1,0 +1,57 @@
+input{
+    font-size: 15px;
+}
+.container{
+    backdrop-filter: blur(10px);
+    background-color: rgba(241, 245, 249, 0.111);
+}
+.css-selector {
+  background: linear-gradient(327deg, #ff0000, #000000, #860eac);
+  background-size: 600% 600%;
+
+  -webkit-animation: Backgroundanimation 30s ease infinite;
+  -moz-animation: Backgroundanimation 30s ease infinite;
+  animation: Backgroundanimation 30s ease infinite;
+  width: 100vw;
+  height: 100vh;
+}
+
+@-webkit-keyframes Backgroundanimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+@-moz-keyframes Backgroundanimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+@keyframes Backgroundanimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+@media (max-width: 640px) {
+    .container{
+        backdrop-filter: none;
+        background-color: transparent;
+    }
+}

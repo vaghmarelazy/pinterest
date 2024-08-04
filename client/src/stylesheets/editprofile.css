@@ -1,0 +1,53 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html, body{
+  width: 100%;
+  height: 100%;
+}
+#container {
+    background: linear-gradient(327deg, #ff0000, #000000, #860eac);
+    background-size: 600% 600%;
+  
+    -webkit-animation: Backgroundanimation 30s ease infinite;
+    -moz-animation: Backgroundanimation 30s ease infinite;
+    animation: Backgroundanimation 30s ease infinite;
+    width: 100vw;
+    height: 100vh;
+  }
+  
+  @-webkit-keyframes Backgroundanimation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  @-moz-keyframes Backgroundanimation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  @keyframes Backgroundanimation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }

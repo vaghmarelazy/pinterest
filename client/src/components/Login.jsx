@@ -22,7 +22,11 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+<<<<<<< HEAD
       const response = await axios.post("https://pinterest-jet.vercel.app/login", {
+=======
+      const response = await axios.post("https://pinterest-swm4.vercel.app/login", {
+>>>>>>> 923d66537692502b6a6b82acec022bf20e78475d
         username,
         password,
       });

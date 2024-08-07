@@ -62,7 +62,11 @@ const Profile = () => {
           return;
         }
 
+<<<<<<< HEAD
         const response = await axios.get("https://pinterest-jet.vercel.app/profile", {
+=======
+        const response = await axios.get("https://pinterest-swm4.vercel.app//profile", {
+>>>>>>> 923d66537692502b6a6b82acec022bf20e78475d
           headers: {
             Authorization: `Bearer ${token}`,
           },

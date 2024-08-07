@@ -3,28 +3,61 @@ import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { createApi } from "unsplash-js";
 import Photo from "./Photo";
-
+import "../stylesheets/photo.css";
 
 const api = createApi({
-  accessKey: "gbaLzCoBw615RIlc2mqpDpXtOCoxVa2KDz2loXQG8Uc" // Replace with your Unsplash access key
+  accessKey: `${import.meta.env.VITE_ACCESS_KEY}`,
 });
-
-
-
-const UnsplashFeed = () => {
+function Feed() {
+  const [value, setValue] = useState(false);
+  const [user, setUser] = useState(null);
   const [data, setPhotosResponse] = useState(null);
 
+  const navigate = useNavigate();
+
+  function handleToggle() {
+    setValue(!value);
+  }
+
   useEffect(() => {
+    document.title = "Feed";
+
+    // Fetch user data
+    async function fetchData() {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          navigate("/login"); // Redirect if no token
+          return;
+        }
+
+        const response = await axios.get("http://localhost:3000/feed", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        setUser(response.data.user);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        navigate("/login"); // Redirect on error
+      }
+    }
     api.search
-      .getPhotos({ query: "aesthetic",  }) // You can change the query here
-      .then(result => {
+      .getPhotos({ query: "random,",color:"black", perPage:30 }) // You can change the query here
+      .then((result) => {
         setPhotosResponse(result);
       })
+      
       .catch(() => {
         console.log("Something went wrong!");
       });
-  }, []);
+    fetchData();
+  }, [navigate]);
 
+  //Unsplash
+  
+  console.log(data)
   if (data === null) {
     return <div>Loading...</div>;
   }
@@ -38,54 +71,6 @@ const UnsplashFeed = () => {
     );
   }
 
-  return (
-    <div className="feed overflow-hidden">
-      <div className="columnUl flex flex-wrap">
-        {data.response.results.map(photo => (
-          <div key={photo.id} className="li">
-            <Photo photo={photo}/>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-function Feed() {
-  const [value, setValue] = useState(false);
-  const [user, setUser] = useState(null);
-  const navigate = useNavigate();
-
-  function handleToggle() {
-    setValue(!value);
-  }
-
-  useEffect(() => {
-    document.title = "Feed";
-
-    // Fetch user data
-    async function fetchData() {
-      try {
-        const token = localStorage.getItem('token');
-        if (!token) {
-          navigate("/login"); // Redirect if no token
-          return;
-        }
-
-        const response = await axios.get("http://localhost:3000/feed", {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
-
-        setUser(response.data.user);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-        navigate("/login"); // Redirect on error
-      }
-    }
-    fetchData();
-  }, [navigate]);
 
   function handleClick() {
     if (user) {
@@ -95,9 +80,18 @@ function Feed() {
     }
   }
 
+  const photos = data.response.results
+  // console.log(photos)
+
+  // Split photos into 4 columns
+  const columns = [[], [], [], []];
+  photos.forEach((photo, index) => {
+    columns[index % 4].push(photo);
+  });
+
   return (
-    <div className="container w-screen min-h-screen h-full bg-neutral-800 overflow-hidden">
-      <nav className="flex justify-between items-center sticky w-full min-h-[10vh] z-10 px-4">
+    <div className="container w-screen min-h-screen bg-neutral-800 overflow-hidden">
+      <nav className="flex justify-between items-center sticky w-full max-h-[10vh] z-10 px-4">
         <div className="logo flex text-white w-36 gap-2 font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl">
           <img
             src="https://asset.brandfetch.io/idGP0S1Jjj/idrcPTMuDp.svg?updated=1667560243183"
@@ -142,16 +136,19 @@ function Feed() {
             className="profile w-14 h-14 rounded-full overflow-hidden"
             onClick={handleClick}
           >
-            <img
-              src={user?.dp}
-              alt="profile picture"
-            />
+            <img src={user?.dp} alt="profile picture" />
           </NavLink>
         </div>
       </nav>
-      <div className="h-[90vh] overflow-scroll">
-      <UnsplashFeed />
-      </div>
+      <div className="photo-columns max-w-full overflow-hidden p-4">
+      {columns.map((column, colIndex) => (
+        <div key={colIndex} className="photo-column">
+          {column.map(photo => (
+            <Photo key={photo.id} photo={photo} />
+          ))}
+        </div>
+      ))}
+    </div>
     </div>
   );
 }

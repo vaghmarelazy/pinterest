@@ -1,10 +1,12 @@
 import React from 'react';
-import { createBrowserRouter,Link, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Signup from './components/Signup';
 import Login from './components/Login';
 import Feed from './components/Feed';
 import Profile from './components/Profile';
 import EditProfile from './components/EditProfile';
+import UserProfile from './components/UserProfile';
+
 
 function App() {
   const router = createBrowserRouter([
@@ -27,6 +29,10 @@ function App() {
     {
       path:'/editprofile',
       element: <EditProfile />
+    },
+    {
+      path:`/user/:username`,
+      element:<UserProfile/>
     }
   ])
   return (

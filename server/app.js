@@ -14,13 +14,17 @@ const usersRouter = require('./Models/users'); // Assuming users routes are in a
 
 const app = express();
 
-// Middleware
+// CORS configuration
 app.use(cors({
   origin: 'https://pinterest-swm4.vercel.app', // Set the origin for CORS requests
   credentials: true, // Allow cookies
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Set allowed HTTP methods
-  allowedHeaders: ['Content-Type', 'Authorization'] // Set allowed headers
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Set allowed HTTP methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Set allowed headers
+  preflightContinue: true, // Pass the CORS preflight response to the next handler
+  optionsSuccessStatus: 204 // Some legacy browsers (IE11, various SmartTVs) choke on 204
 }));
+
+// Middleware
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -78,3 +82,4 @@ mongoose.connect(process.env.MONGO_URI)
   .catch(err => console.error(err));
 
 module.exports = app;
+  

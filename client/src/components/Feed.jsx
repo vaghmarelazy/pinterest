@@ -31,7 +31,7 @@ function Feed() {
           return;
         }
 
-        const response = await axios.get("http://localhost:3000/feed", {
+        const response = await axios.get("https://pinterest-jet.vercel.app/feed", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

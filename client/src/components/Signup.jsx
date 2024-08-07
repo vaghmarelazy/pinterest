@@ -21,7 +21,7 @@ function Signup() {
     event.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:3000/ ", {
+      const response = await axios.post("https://pinterest-swm4.vercel.app/", { //Backend server
         fullname :fullName,
         email :email,
         username :username,

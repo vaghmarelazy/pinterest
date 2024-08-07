@@ -16,7 +16,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: process.env.CLIENT_URL, // Set the origin for CORS requests
+  origin: 'https://pinterest-swm4.vercel.app', // Set the origin for CORS requests
   credentials: true, // Allow cookies
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Set allowed HTTP methods
   allowedHeaders: ['Content-Type', 'Authorization'] // Set allowed headers

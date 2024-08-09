@@ -21,11 +21,11 @@ function Signup() {
     event.preventDefault();
 
     try {
-      const response = await axios.post("https://pinterest-jet.vercel.app/ ", {
-        fullname :fullName,
-        email :email,
-        username :username,
-         password :password,
+      const response = await axios.post(`${import.meta.env.VITE_HOST}/signup`, {
+        fullname: fullName,
+        email: email,
+        username: username,
+        password: password,
       });
       console.log("Registration successful:", response.data);
 
@@ -109,6 +109,7 @@ function Signup() {
             />
             <div className="text-white mt-4">Or</div>
             <button
+              type="button"
               className="text-white text-sm hover:text-red-500 hover:shadow-md underline"
               onClick={handleClick}
             >

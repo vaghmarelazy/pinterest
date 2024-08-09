@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useLocation, NavLink } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import axios from "axios";
 import Popup from "./Popup";
 
@@ -8,24 +8,19 @@ function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [showError, setShowError] = useState(false);
-  const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
     document.title = "Login";
-  //   if (location.state && location.state.username) {
-  //     setUsername(location.state.username);
-  //   }
-  // }, [location.state]);
 },[])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("https://pinterest-jet.vercel.app/login", {
-        username,
-        password,
-      });
+        const response = await axios.post(`${import.meta.env.VITE_HOST}/login`, {
+          username,
+          password,
+        });
       console.log("Login success:", response.data);
       const token = response.data.token;
       localStorage.setItem("token", token); // Save token in localStorage

@@ -35,7 +35,6 @@ async function signup(req, res) {
         return res.status(400).json({ message: 'Registration failed. Please try again.' });
     }
 }
-
 async function login(req, res) {
     const { username, password } = req.body;
 
@@ -58,12 +57,9 @@ async function login(req, res) {
         res.status(500).json({ message: 'Internal server error' });
     }
 }
-
 async function feed(req, res) {
     res.status(200).json({ message: 'Feed data', user: req.user })
 }
-
-
 async function profile(req, res) {
     res.status(200).json({ message: 'User profile', user: req.user })
 }
@@ -108,7 +104,4 @@ async function editprofile_post(req, res) {
     }
 }
 
-async function uploadpost (req, res){
-
-}
-module.exports = { initialPage, signup, login, feed, profile, editprofile_pre, editprofile_post, uploadpost };
+module.exports = { initialPage, signup, login, feed, profile, editprofile_pre, editprofile_post };

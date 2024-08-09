@@ -31,13 +31,13 @@ function Feed() {
           return;
         }
 
-        const response = await axios.get("https://pinterest-jet.vercel.app/feed", {
+        const response = await axios.get(`${import.meta.env.VITE_HOST}/feed`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-
         setUser(response.data.user);
+        console.log("DATA",response.data)
       } catch (error) {
         console.error("Error fetching user data:", error);
         navigate("/login"); // Redirect on error

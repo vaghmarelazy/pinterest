@@ -25,7 +25,7 @@ function EditProfile() {
           return;
         }
 
-        const response = await axios.get("http://localhost:3000/editprofile", {
+        const response = await axios.get(`${import.meta.env.VITE_HOST}/editprofile`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -60,7 +60,7 @@ function EditProfile() {
     try {
       const token = localStorage.getItem("token");
       const update = await axios.post(
-        "https://pinterest-jet.vercel.app/editprofile",
+        `${import.meta.env.VITE_HOST}/editprofile`,
         {
           newUsername,
           newFullName,

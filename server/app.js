@@ -36,7 +36,7 @@ const verifyToken = (req, res, next) => {
 
 
 app.use(cors({
-  origin: `${process.env.CLIENT}`, // Allow requests from this origin
+  origin: process.env.CLIENT , // Allow requests from this origin
   credentials: true, // Allow cookies and other credentials to be sent in requests
 }));
 app.options('*', cors()); // Enable pre-flight requests for all routes

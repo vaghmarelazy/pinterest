@@ -24,7 +24,7 @@ function Signup() {
     console.log("Submitting")
 
     try {
-      const response = await axios.post(`${import.meta.env.VITE_HOST}/signup`, {
+      const response = await axios.post(`${import.meta.env.VITE_HOST}/app/signup`, {
         fullname: fullName,
         email: email,
         username: username,

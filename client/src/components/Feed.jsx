@@ -39,7 +39,7 @@ function Feed() {
         return;
       }
 
-      const response = await axios.get(`${import.meta.env.VITE_HOST}/feed`, {
+      const response = await axios.get(`${import.meta.env.VITE_HOST}/api/feed`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

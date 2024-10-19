@@ -16,9 +16,9 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(import.meta.env.VITE_HOST)
+    // console.log(import.meta.env.VITE_HOST)
     try {
-        const response = await axios.post(`${import.meta.env.VITE_HOST || "http://localhost:3000"}/login`, {
+        const response = await axios.post(`${import.meta.env.VITE_HOST || "http://localhost:3000"}/app/login`, {
           username,
           password,
         });

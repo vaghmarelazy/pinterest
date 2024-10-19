@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import axios from "axios";
 import Popup from "./Popup";
@@ -16,8 +16,9 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(import.meta.env.VITE_HOST)
     try {
-        const response = await axios.post(`${import.meta.env.VITE_HOST}/login`, {
+        const response = await axios.post(`${import.meta.env.VITE_HOST || "http://localhost:3000"}/login`, {
           username,
           password,
         });
@@ -25,6 +26,8 @@ function Login() {
       const token = response.data.token;
       localStorage.setItem("token", token); // Save token in localStorage
       navigate("/feed");
+
+
     } catch (err) {
       if (err.response) {
         setError(err.response.data.message);

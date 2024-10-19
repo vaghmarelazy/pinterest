@@ -30,7 +30,7 @@ function EditProfile() {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log("User", response.data);
+        // console.log("User", response.data);
         const userData = response.data.user;
         setUser(userData);
         setNewBio(userData.bio);
@@ -112,7 +112,7 @@ function EditProfile() {
               className="w-full h-full object-cover bg-white rounded-full shadow-lg"
             />
           </div>
-          <p className="ml-4 text-lg text-white cursor-pointer">
+          <p className="ml-4 text-lg text-white cursor-not-allowed">
             Change profile photo
           </p>
         </div>

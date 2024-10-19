@@ -3,7 +3,7 @@ import { useParams, NavLink } from "react-router-dom";
 import { createApi } from "unsplash-js";
 
 const api = createApi({
-  accessKey: `${import.meta.env.VITE_ACCESS_KEY}`,
+  accessKey: `${import.meta.env.VITE_UNSPLASH_API_KEY}`,
 });
 
 const UserProfile = () => {
@@ -16,7 +16,7 @@ const UserProfile = () => {
       try {
         const response = await api.users.get({ username });
         const photos = await api.users.getPhotos({ username, perPage: 20 });
-        console.log(photos.response.results);
+        // console.log(photos.response.results);
         setPhotos(photos.response.results);
         setUserData(response.response); // response contains the user data
       } catch (error) {

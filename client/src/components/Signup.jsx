@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import axios from "axios";
 import "../stylesheets/Signup.css";
@@ -11,6 +11,7 @@ function Signup() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null); 
   const [showPopup, setShowPopup] = useState(false);
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,7 +19,9 @@ function Signup() {
   }, []);
 
   const handleSubmit = async (event) => {
+    setLoading(true);
     event.preventDefault();
+    console.log("Submitting")
 
     try {
       const response = await axios.post(`${import.meta.env.VITE_HOST}/signup`, {
@@ -27,7 +30,7 @@ function Signup() {
         username: username,
         password: password,
       });
-      console.log("Registration successful:", response.data);
+      // console.log("Registration successful:", response.data);
 
       // Handle the response to get the token
       const { token } = response.data;
@@ -106,6 +109,7 @@ function Signup() {
               type="submit"
               className="btn int bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-2xl mt-4"
               value="Register Account"
+              disabled={loading}
             />
             <div className="text-white mt-4">Or</div>
             <button

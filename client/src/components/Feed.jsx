@@ -6,12 +6,18 @@ import Photo from "./Photo";
 import "../stylesheets/photo.css";
 
 const api = createApi({
-  accessKey: `${import.meta.env.VITE_ACCESS_KEY}`,
+  accessKey: `${import.meta.env.VITE_UNSPLASH_API_KEY}`,
 });
+
 function Feed() {
   const [value, setValue] = useState(false);
   const [user, setUser] = useState(null);
   const [data, setPhotosResponse] = useState(null);
+  const [page, setPage] = useState(1); // Current page
+  const [perPage] = useState(20); // Photos per page
+  const [totalPages, setTotalPages] = useState(0); // Total number of pages
+  const [loading, setLoading] = useState(false); // To track loading state
+  const [query, setQuery] = useState("Asthetics");
 
   const navigate = useNavigate();
 
@@ -21,43 +27,66 @@ function Feed() {
 
   useEffect(() => {
     document.title = "Feed";
+    fetchUserData();
+    fetchPhotos();
+  }, []);
 
-    // Fetch user data
-    async function fetchData() {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          navigate("/login"); // Redirect if no token
-          return;
-        }
-
-        const response = await axios.get(`${import.meta.env.VITE_HOST}/feed`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setUser(response.data.user);
-        console.log("DATA",response.data)
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-        navigate("/login"); // Redirect on error
+  async function fetchUserData() {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        navigate("/login"); // Redirect if no token
+        return;
       }
-    }
-    api.search
-      .getPhotos({ query: "random,",color:"black", perPage:30 }) // You can change the query here
-      .then((result) => {
-        setPhotosResponse(result);
-      })
-      
-      .catch(() => {
-        console.log("Something went wrong!");
-      });
-    fetchData();
-  }, [navigate]);
 
-  //Unsplash
-  
-  console.log(data)
+      const response = await axios.get(`${import.meta.env.VITE_HOST}/feed`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setUser(response.data.user);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      navigate("/login"); // Redirect on error
+    }
+  }
+
+  async function fetchPhotos() {
+    setLoading(true); // Set loading true while fetching data
+    try {
+      const result = await api.search.getPhotos({
+        query: query,
+        perPage: perPage, // Set the number of photos per page
+        page: page, // Use the updated page state
+      });
+
+      const totalPhotos = result.response.total;
+      setTotalPages(Math.ceil(totalPhotos / perPage));
+
+      if (page === 1) {
+        setPhotosResponse(result); // Set new response data for first page
+      } else {
+        setPhotosResponse((prevData) => ({
+          ...prevData,
+          response: {
+            ...prevData.response,
+            results: [...prevData.response.results, ...result.response.results], // Append new results to previous ones
+          },
+        }));
+      }
+    } catch (error) {
+      console.log("Something went wrong!", error);
+    }
+    setLoading(false);
+  }
+
+  function handlePageChange(newPage) {
+    if (newPage > 0 && newPage <= totalPages) {
+      setPage(newPage);
+      fetchPhotos();
+    }
+  }
+
   if (data === null) {
     return <div>Loading...</div>;
   }
@@ -71,7 +100,6 @@ function Feed() {
     );
   }
 
-
   function handleClick() {
     if (user) {
       navigate("/profile");
@@ -80,13 +108,11 @@ function Feed() {
     }
   }
 
-  const photos = data.response.results
-  // console.log(photos)
+  const photos = data?.response?.results || [];
 
-  // Split photos into 4 columns
-  const columns = [[], [], [], []];
+  const columns = [[], [], []];
   photos.forEach((photo, index) => {
-    columns[index % 4].push(photo);
+    columns[index % 3].push(photo);
   });
 
   return (
@@ -124,6 +150,12 @@ function Feed() {
                 width: value ? "85%" : "0",
                 transition: value ? "width 1s" : "",
               }}
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  fetchPhotos();
+                }
+              }}
             />
             <img
               src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-25-512.png"
@@ -140,15 +172,42 @@ function Feed() {
           </NavLink>
         </div>
       </nav>
-      <div className="photo-columns max-w-full overflow-hidden p-4">
-      {columns.map((column, colIndex) => (
-        <div key={colIndex} className="photo-column">
-          {column.map(photo => (
-            <Photo key={photo.id} photo={photo} />
-          ))}
-        </div>
-      ))}
-    </div>
+
+      <div className="w-full text-center sm:text-2xl text-base text-white border-b-2">Showing results for {query}</div>
+      {/* Photo Columns */}
+      <div className="photo-columns max-w-full overflow-hidden mt-4">
+        {columns.map((column, colIndex) => (
+          <div key={colIndex} className="photo-column">
+            {column.map((photo) => (
+              <Photo key={photo.id} photo={photo} />
+            ))}
+          </div>
+        ))}
+      </div>
+
+      <div className="flex flex-col justify-center items-center my-4 gap-4">
+        <span className="text-white">
+          Page {page} of {totalPages}
+        </span>
+        <button
+          onClick={() => handlePageChange(page + 1)}
+          className="bg-white sm:w-1/12 w-2/6 text-black py-2 px-4 rounded-xl border-2-black"
+          disabled={page === totalPages || loading}
+        >
+          Load More
+        </button>
+      </div>
+
+      <footer className="w-full text-center bg-black">
+        <p className="font-mono text-slate-300">
+          Developed with ❤️ by{" "}
+          <a href="https://github.com/vaghmarelazy" className="font-bold">
+            LAZY
+          </a>{" "}
+          <span>&</span> Powered by⚡
+          <a href="https://unsplash.com/">UNSPLASH API</a>
+        </p>
+      </footer>
     </div>
   );
 }

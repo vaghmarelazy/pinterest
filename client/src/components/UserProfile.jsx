@@ -37,7 +37,7 @@ const UserProfile = () => {
       <nav className="w-full h-[10vh] fixed flex items-center justify-between px-4">
         <div>
           <NavLink
-            to="/feed"
+            to="/api/feed"
             id="backbtn"
             className=" text-white rounded-3xl text-center flex items-center justify-center hover:bg-white hover:text-black hover:scale-[1.5] h-8 w-8 duration-300"
           >

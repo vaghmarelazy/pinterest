@@ -11,27 +11,27 @@ import UserProfile from './components/UserProfile';
 function App() {
   const router = createBrowserRouter([
     {
-      path:"/",
+      path:"/app",
       element: <Signup />
     },
     {
-      path:"/login",
+      path:"/app/login",
       element: <Login />
     },
     {
-      path:"/feed",
+      path:"/api/feed",
       element: <Feed />
     },
     {
-    path:'/profile',
+    path:'/api/profile',
     element: <Profile />
     },
     {
-      path:'/editprofile',
+      path:'/api/editprofile',
       element: <EditProfile />
     },
     {
-      path:`/user/:username`,
+      path:`/api/user/:username`,
       element:<UserProfile/>
     }
   ])

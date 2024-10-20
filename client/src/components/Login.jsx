@@ -22,10 +22,10 @@ function Login() {
           username,
           password,
         });
-      console.log("Login success:", response.data);
+      // console.log("Login success:", response.data);
       const token = response.data.token;
       localStorage.setItem("token", token); // Save token in localStorage
-      navigate("/feed");
+      navigate("/api/feed");
 
 
     } catch (err) {

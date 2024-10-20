@@ -35,7 +35,7 @@ function Feed() {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        navigate("/login"); // Redirect if no token
+        navigate("/app/login"); // Redirect if no token
         return;
       }
 
@@ -47,7 +47,7 @@ function Feed() {
       setUser(response.data.user);
     } catch (error) {
       console.error("Error fetching user data:", error);
-      navigate("/login"); // Redirect on error
+      navigate("/app/login"); // Redirect on error
     }
   }
 
@@ -102,7 +102,7 @@ function Feed() {
 
   function handleClick() {
     if (user) {
-      navigate("/profile");
+      navigate("/api/profile");
     } else {
       console.error("No user data available");
     }

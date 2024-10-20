@@ -57,12 +57,12 @@ const Profile = () => {
       try {
         const token = localStorage.getItem("token");
         if (!token) {
-          navigate("/login"); // Redirect if no token
+          navigate("/app/login"); // Redirect if no token
           console.log("Login failed");
           return;
         }
 
-        const response = await axios.get(`${import.meta.env.VITE_HOST}/profile` ,{
+        const response = await axios.get(`${import.meta.env.VITE_HOST}/api/profile` ,{
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -72,7 +72,7 @@ const Profile = () => {
         setUser(response.data.user);
       } catch (error) {
         console.error("Error fetching user data:", error);
-        navigate("/login"); // Redirect on error
+        navigate("/app/login"); // Redirect on error
       } finally {
         setLoading(false);
       }
@@ -92,7 +92,7 @@ const Profile = () => {
       <nav className="w-full h-[10vh] fixed flex items-center justify-between px-4">
         <div>
           <NavLink
-            to="/feed"
+            to="/api/feed"
             id="backbtn"
             className=" text-white rounded-3xl text-center flex items-center justify-center hover:bg-white hover:text-black hover:scale-[1.5] h-8 w-8 duration-300"
           >
@@ -101,7 +101,7 @@ const Profile = () => {
         </div>
         <div className="logout  w-24 h-9 bg-white flex items-center justify-center rounded-full text-black">
           <NavLink
-            to="/login"
+            to="/app/login"
             className="font-medium w-full h-full flex items-center justify-center text-sm sm:text-base"
           >
             Log out
@@ -147,7 +147,7 @@ const Profile = () => {
               </div>
               <div className="wrapper sm:w-full flex justify-between items-center gap-4">
                 <NavLink
-                  to="/editprofile"
+                  to="/api/editprofile"
                   className="hoverbtn w-[50%] text-black bg-white p-3 duration-200 font-medium text-xs sm:text-[1vw] text-center rounded-full hover:text-white hover:bg-red-600"
                 >
                   Edit Profile

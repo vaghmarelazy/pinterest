@@ -36,7 +36,7 @@ function Signup() {
       const { token } = response.data;
       localStorage.setItem("token", token); // Store the token in local storage
 
-      navigate("/feed"); // Redirect to feed after successful signup
+      navigate("/api/feed"); // Redirect to feed after successful signup
     } catch (err) {
       if (err.response) {
         if (err.response.data.message === "User already exists") {
@@ -56,7 +56,7 @@ function Signup() {
   };
 
   const handleClick = () => {
-    navigate("/login", { state: { username } });
+    navigate("/app/login", { state: { username } });
   };
 
   return (
